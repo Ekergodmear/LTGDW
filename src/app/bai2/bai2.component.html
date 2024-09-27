@@ -1,0 +1,184 @@
+<div class="container">
+  <form action="" [formGroup]="formEmployee">
+
+    <!-- INFORMATION -->
+    <div class="row">
+       <!-- Họ và tên -->
+      <div class="col-md-6">
+
+        <div class="mb-3">
+          <label for=""  class="form-label">Họ và tên:</label>
+          <input [formControl]="formEmployee.controls.fullname" type="text"
+            name=""
+            id=""
+            class="form-control"
+            placeholder=""
+            aria-describedby="helpId"
+          />
+          <small id="helpId" class="text-muted">
+            @if (isFieldInvalid('fullname')) {
+              @if (formEmployee.get('fullname')?.errors?.['required']) {
+                  <small class="text-danger">Fullname is required.</small>      }
+              @if (formEmployee.get('fullname')?.errors?.['minlength']) {
+                  <small class="error">Name must be at least 8 characters long.</small>
+              } }
+          </small>
+        </div>
+      </div>
+
+   <!-- Lương -->
+      <div class="col-md-6">
+
+        <div class="mb-3">
+          <label for="" class="form-label">Lương:</label>
+          <input
+            [formControl]="formEmployee.controls.salary"
+            type="text"
+            name=""
+            id=""
+            class="form-control"
+            placeholder=""
+            aria-describedby="helpId"
+          />
+          <!-- <small id="helpId" class="text-muted">Help text</small> -->
+        </div>
+      </div>
+ <!-- Ngày sinh -->
+      <div class="col-md-2">
+
+        <label for="" class="form-label">Ngày sinh:</label>
+        <input
+          [formControl]="formEmployee.controls.birthday"
+          type="date"
+          name=""
+          id=""
+          class="form-control"
+          placeholder=""
+          aria-describedby="helpId"
+        />
+        <!-- <small id="helpId" class="text-muted">Help text</small> -->
+      </div>
+      <!-- giới tính -->
+      <div class="col-md-2">
+        <label for="" class="form-label">Giới tính:</label><br>
+        <div class="form-check form-check-inline">
+          <input
+          [formControl]="formEmployee.controls.gender"
+            class="form-check-input"
+            type="radio"
+            id=""
+            name="p"
+            value="Nam"
+          />
+          <label class="form-check-label" for="">Nam</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+          [formControl]="formEmployee.controls.gender"
+            class="form-check-input"
+            type="radio"
+            id=""
+            value="Nữ"
+            name="p"
+          />
+          <label class="form-check-label" for="">Nữ</label>
+        </div>
+      </div>
+
+      <!-- Add update -->
+       <div class="col-md-2 mt-4">
+          <button
+            type="button"
+            class="btn btn-primary m-1"
+            (click)="ADD()"
+          >
+            ADD
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary m-1"
+            (click)="Update()"
+          >
+            UPDATE
+          </button>
+       </div>
+
+       <!-- dộ tuổi -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="" class="form-label">Độ tuổi</label>
+            <select
+              [formControl]="formEmployee.controls.workAge"
+              class="form-select form-select-md"
+              name=""
+              id=""
+            >
+            @for (item of workingAge; track $index) {
+              <option [ngValue]="item" >{{item.age}}</option>
+            }
+            </select>
+          </div>
+
+        </div>
+    </div>
+    <!-- END INFO -->
+     <br><br>
+
+    <!-- TABLE -->
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Giới tính</th>
+            <th scope="col">Ngày sinh</th>
+            <th scope="col">Lương</th>
+            <th scope="col">Độ tuổi</th>
+            <th scope="col">Thưởng</th>
+            <th scope="col">        </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of employee; track $index) {
+            <tr class="">
+              <td scope="row">{{$index+1}}</td>
+              <td>{{item.fullname}}</td>
+              <td>{{item.gender}}</td>
+              <td>{{item.birthday}}</td>
+              <td>{{item.salary}}</td>
+              <td>{{item.workAge.age}}</td>
+              <td>{{item.bonus}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="badge text-bg-primary rounded-pill ms-3"
+                  (click)="Edit($index)"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="badge text-bg-danger rounded-pill m-3"
+                  (click)="Delete($index)"
+                >
+                  delete
+                </button>
+
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- END TABLE -->
+
+
+
+  </form>
+</div>

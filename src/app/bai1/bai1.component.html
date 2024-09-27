@@ -1,0 +1,164 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4 text-center">
+      <img src="./assets/image/{{imgs}}" width="100%" style="height: auto;">
+      <div class="row" style="margin-top: 10px;">
+        @for (item of product_img;track $index) {
+        <div class="col-3">
+          <a href=#>
+            <img src="./assets/image/{{item}}" style="width:70%" (click)="changeImage(item)">
+          </a>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="col-5">
+      <h1>{{title()}}</h1>
+      <span>
+        <!-- dùng for hiển thị rating -->
+        @for (item of starRating(); track $index) {
+        <i class="bi bi-star text-warning"> </i>
+        }
+      </span>
+      <h3>GIÁ BÁN : {{ price() | currency}} </h3>
+      <strong [hidden]='inSale()'>Giá khuyến mãi: {{priceOnSale()| currency}}</strong>
+      <strong [hidden]='!inSale()'>Giá khuyến mãi đã hết !</strong>
+      <h5>Số sản phẩm còn trong kho : {{inStock()}}</h5>
+      <button class="btn btn-primary" (click)="addCart(selectedVariant,1)" [disabled]="inStock()==0">Mua liền!
+      </button>
+      <!-- dùng for thể hiện products -->
+      <div>
+        @for (item of products; track $index) {
+        <a href="#" (click)="selectedVariant=$index;ngOnInit()">
+          <img src='./assets/image/{{item.img}}' style="width: 20%;margin: 20px;">
+        </a>
+        }
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="border mt-2 p-2">
+        <a href="#" style="float: left;">
+          <i class="fas fa-shopping-cart" style="font-size: 50px;"></i>
+        </a>
+        <div class="text-center">
+          {{totalItems()}}<br>
+          Tổng tiền : {{Total() |currency}} <br>
+          <button class="btn btn-primary" style="margin-top: 10px;" data-bs-toggle="modal" data-bs-target="#modalId">View
+            Cart
+          </button>
+        </div>
+      </div>
+      <div class="text-center border mt-2 p-2">
+        <div class="card">
+          <div class="card-header">
+            Chủng loại
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-primary ">Điện thoại di động</li>
+            <li class="list-group-item  bg-secondary ">Máy tính xách tay</li>
+            <li class="list-group-item  bg-success">Máy tính để bàn</li>
+            <li class="list-group-item bg-danger">Quạt</li>
+            <li class="list-group-item bg-info">Máy lạnh</li>
+            <li class="list-group-item bg-dark">Khác</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal
+  <table class="text-center table">
+    <thead>
+      <tr>
+        <th>HÌNH</th>
+        <th>SẢN PHẨM</th>
+        <th>ĐƠN GIÁ</th>
+        <th>SỐ LƯỢNG</th>
+        <th>THÀNH TIỀN</th>
+        <th></th>
+      </tr>
+    </thead>
+    dùng for thể hiện giỏ hàng
+    <tbody>
+      @for (item of CartItems; track $index) {
+      <tr>
+        <td><img src="./assets/image/{{item.img}}" style="height:  100px;width: 100px;"></td>
+        <td class="align-middle">{{item.name}}</td>
+        <td class="align-middle">{{item.price | currency}}</td>
+        <td class="align-middle">{{item.quantity}}</td>
+        <td class="align-middle">{{item.price * item.quantity | currency}}</td>
+        <td class="align-middle">
+          <button class="btn btn-danger" (click)="Remove($index)"> Remove
+          </button>
+        </td>
+      </tr>
+      }
+      <tr>
+        <th></th>
+        <th></th>
+        <th>Tổng tiền</th>
+        <th>{{totalItems()}}</th>
+        <th>{{Total() | currency}}</th>
+        <th>
+          <button class="btn btn-danger" (click)="DeleteAll()"> Remove All
+          </button>
+        </th>
+      </tr>
+    </tbody>
+  </table> -->
+
+</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="modalId" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Giỏ hàng</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- dùng for thể hiện giỏ hàng -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th>HÌNH</th>
+                <th>SẢN PHẨM</th>
+                <th>ĐƠN GIÁ</th>
+                <th>SỐ LƯỢNG</th>
+                <th>THÀNH TIỀN</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of CartItems; track $index) {
+              <tr>
+                <td><img src="./assets/image/{{item.img}}" style="height:  100px;width: 100px;"></td>
+                <td class="align-middle">{{item.name}}</td>
+                <td class="align-middle">{{item.price | currency}}</td>
+                <td class="align-middle">{{item.quantity}}</td>
+                <td class="align-middle">{{item.price * item.quantity | currency}}</td>
+                <td class="align-middle">
+                  <button class="btn btn-danger" (click)="Remove($index)"> Remove
+                  </button>
+                </td>
+              </tr>
+              }
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Tổng tiền</th>
+                <th>{{totalItems()}}</th>
+                <th>{{Total() | currency}}</th>
+                <th>
+                  <button class="btn btn-danger" (click)="DeleteAll()"> Remove All
+                  </button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
